@@ -6,7 +6,7 @@ set -euo pipefail
 # e2e suite that exercises the whole system.
 
 total=$(( 2 + 2 ))
-expected=5
+expected=4
 
 if [[ "$total" != "$expected" ]]; then
   echo "e2e: expected $expected, got $total"
