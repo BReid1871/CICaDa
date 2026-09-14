@@ -9,9 +9,11 @@ project's real checks when adopting this pattern elsewhere.
 
 1. A task is handed to a Claude Code session.
 2. The agent explores, drafts a plan, and gets it approved before writing
-   any code.
+   any code. The plan should call out security and accessibility
+   implications of the change, not just functional ones.
 3. The agent implements the change and opens a PR (using
-   `.github/pull_request_template.md`).
+   `.github/pull_request_template.md`), filling in the template's
+   Security & accessibility section.
 4. `.github/workflows/ci.yml` runs four checks on the PR: `lint`, `unit`,
    `integration`, `e2e` — each just a thin wrapper (see `Makefile`) around
    a script in `ci/`.
@@ -20,6 +22,19 @@ project's real checks when adopting this pattern elsewhere.
    check is green. `.claude/skills/babysit/SKILL.md` has the repo-specific
    rules for that loop (merge conventions, autofix posture).
 6. A human does the final review — requesting changes or merging.
+
+## Security & accessibility
+
+Every plan and PR addresses these alongside functional correctness:
+
+- **Security**: new inputs, auth/permission checks, secrets handling, and
+  injection risk (SQL/command/XSS) — flag anything touching the OWASP Top
+  10.
+- **Accessibility**: for any UI change — semantic markup, keyboard
+  navigation, color contrast, ARIA labels.
+
+If a change touches neither, say so explicitly in the PR rather than
+omitting the section.
 
 ## Running checks locally
 
