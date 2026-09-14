@@ -1,9 +1,9 @@
 # CICaDa
 
-A testbed for an agent-driven development loop, not an application. There
-is no product code here — `ci/` holds stand-in check scripts that play the
-role of real lint/unit/integration/e2e suites so the pipeline mechanics can
-be built and exercised on their own.
+An agent-driven CI/CD loop: an agent plans, implements, and opens a PR;
+CI checks it; an agent drives it to green; a human does final review. `ci/`
+holds this repo's lint/unit/integration/e2e checks — replace them with the
+project's real checks when adopting this pattern elsewhere.
 
 ## The loop
 
@@ -33,9 +33,9 @@ make test-e2e
 
 ## Layout
 
-- `ci/*.sh` — the four stub check scripts, each self-contained and
-  deterministic (see `.claude/skills/babysit/SKILL.md` for how to treat a
-  failure).
+- `ci/*.sh` — the four check scripts (currently placeholder examples in
+  this repo), each self-contained and deterministic (see
+  `.claude/skills/babysit/SKILL.md` for how to treat a failure).
 - `ci/fixtures/` — data the integration check reads.
 - `Makefile` — the single command interface used identically by a human
   and by `.github/workflows/ci.yml`.
