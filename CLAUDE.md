@@ -9,11 +9,11 @@ project's real checks when adopting this pattern elsewhere.
 
 1. A task is handed to a Claude Code session.
 2. The agent explores, drafts a plan, and gets it approved before writing
-   any code. The plan should call out security and accessibility
-   implications of the change, not just functional ones.
+   any code. The plan should call out the change's non-functional
+   implications, not just functional ones.
 3. The agent implements the change and opens a PR (using
    `.github/pull_request_template.md`), filling in the template's
-   Security & accessibility section.
+   Non-functional considerations section.
 4. `.github/workflows/ci.yml` runs four checks on the PR: `lint`, `unit`,
    `integration`, `e2e` — each just a thin wrapper (see `Makefile`) around
    a script in `ci/`.
@@ -23,7 +23,7 @@ project's real checks when adopting this pattern elsewhere.
    rules for that loop (merge conventions, autofix posture).
 6. A human does the final review — requesting changes or merging.
 
-## Security & accessibility
+## Non-functional considerations
 
 Every plan and PR addresses these alongside functional correctness:
 
@@ -32,8 +32,16 @@ Every plan and PR addresses these alongside functional correctness:
   10.
 - **Accessibility**: for any UI change — semantic markup, keyboard
   navigation, color contrast, ARIA labels.
+- **Performance**: new queries, loops, or payloads that scale badly (N+1
+  queries, unbounded loops, large payloads).
+- **Observability**: logging/metrics for new failure paths, especially
+  anything needed to debug a future CI failure.
+- **Backward compatibility**: API/schema/config changes that break
+  existing callers or need a migration.
+- **Test coverage**: new branches or edge cases actually covered, not
+  just the happy path.
 
-If a change touches neither, say so explicitly in the PR rather than
+If none apply to a change, say so explicitly in the PR rather than
 omitting the section.
 
 ## Running checks locally
